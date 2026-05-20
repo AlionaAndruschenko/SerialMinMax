@@ -4,14 +4,12 @@
 #include <time.h>
 #include <float.h>
 
-
 void RandomDataInitialization(double* pArray, int Size) {
     srand(unsigned(clock()));
     for (int i = 0; i < Size; i++) {
-        pArray[i] = (rand() / double(RAND_MAX)) * 2000.0 - 1000.0; 
+        pArray[i] = (rand() / double(RAND_MAX)) * 2000.0 - 1000.0;
     }
 }
-
 
 void ProcessInitialization(double*& pArray, int& Size) {
     do {
@@ -25,7 +23,6 @@ void ProcessInitialization(double*& pArray, int& Size) {
     RandomDataInitialization(pArray, Size);
 }
 
-
 void ResultCalculation(double* pArray, int Size, double& Min, double& Max) {
     Min = pArray[0];
     Max = pArray[0];
@@ -35,7 +32,6 @@ void ResultCalculation(double* pArray, int Size, double& Min, double& Max) {
     }
 }
 
-
 void PrintArray(double* pArray, int Size) {
     int printCount = (Size < 10) ? Size : 10;
     printf("Array (first %d elements): ", printCount);
@@ -44,32 +40,33 @@ void PrintArray(double* pArray, int Size) {
     printf("\n");
 }
 
-
 void ProcessTermination(double* pArray) {
     delete[] pArray;
 }
 
-void main() {
-    double* pArray;
+int main() {
+    double* pArray = NULL;
     int Size;
     double Min, Max;
-    time_t start, finish;
+    clock_t start, finish;
     double duration;
 
     printf("Serial min/max search program\n");
 
     ProcessInitialization(pArray, Size);
-
     PrintArray(pArray, Size);
 
     start = clock();
     ResultCalculation(pArray, Size, Min, Max);
     finish = clock();
+
     duration = (finish - start) / double(CLOCKS_PER_SEC);
 
-    printf("\nMinimum value: %.6f\n", Min);
-    printf("Maximum value: %.6f\n", Max);
+    printf("\nMinimum value    : %.6f\n", Min);
+    printf("Maximum value    : %.6f\n", Max);
     printf("Time of execution: %.6f sec\n", duration);
 
     ProcessTermination(pArray);
+
+    return 0;
 }
