@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <float.h>
+#include <omp.h>
 
 void RandomDataInitialization(double* pArray, int Size) {
     srand(unsigned(clock()));
@@ -18,7 +19,6 @@ void ProcessInitialization(double*& pArray, int& Size) {
         if (Size <= 0)
             printf("Size must be greater than 0!\n");
     } while (Size <= 0);
-
     pArray = new double[Size];
     RandomDataInitialization(pArray, Size);
 }
@@ -48,25 +48,21 @@ int main() {
     double* pArray = NULL;
     int Size;
     double Min, Max;
-    clock_t start, finish;
-    double duration;
+    double Start, Finish, Duration;
 
     printf("Serial min/max search program\n");
-
     ProcessInitialization(pArray, Size);
     PrintArray(pArray, Size);
 
-    start = clock();
+    Start = omp_get_wtime();
     ResultCalculation(pArray, Size, Min, Max);
-    finish = clock();
-
-    duration = (finish - start) / double(CLOCKS_PER_SEC);
+    Finish = omp_get_wtime();
+    Duration = Finish - Start;
 
     printf("\nMinimum value    : %.6f\n", Min);
     printf("Maximum value    : %.6f\n", Max);
-    printf("Time of execution: %.6f sec\n", duration);
+    printf("Time of execution: %.6f sec\n", Duration);
 
     ProcessTermination(pArray);
-
     return 0;
 }
