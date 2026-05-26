@@ -6,7 +6,7 @@
 #include <omp.h>
 
 void RandomDataInitialization(double* pArray, int Size) {
-    srand(unsigned(clock()));
+    srand((unsigned)time(NULL));
     for (int i = 0; i < Size; i++) {
         pArray[i] = (rand() / double(RAND_MAX)) * 2000.0 - 1000.0;
     }
